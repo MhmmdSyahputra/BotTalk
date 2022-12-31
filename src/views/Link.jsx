@@ -3,10 +3,13 @@ import { getDatabase, ref, push, onValue } from "firebase/database";
 import firebase from '../config';
 // import {firebase} from 'firebase'
 import { LinkColle } from '../components/LinkColle';
+import Skeleton from "@mui/material/Skeleton";
+
 
 export const MyLink = () => {
 
   const [datalink, setDatalink] = useState([])
+  const [loading, setLoading] = useState(true);
 
   const [namelink, setName] = useState()
   const [link, setLink] = useState()
@@ -15,15 +18,11 @@ export const MyLink = () => {
   useEffect(() => {
     const db = getDatabase();
     onValue(ref(db, 'my-link'), (snapshot) => {
-      // setDatalink([]);
       const data = snapshot.val()
 
       setDatalink(data)
-      // if (data !== null) {
-      //   Object.values(data).map((alldata) => {
-      //     setDatalink((olddata) => [...olddata, alldata]);
-      //   });
-      // }
+      setLoading(false);
+
     })
   }, []);
 
@@ -80,9 +79,32 @@ export const MyLink = () => {
                 </div>
                 <div className="row content2 p-3">
                   {
+                    loading ? (
+                      <div className="row">
+                        <Skeleton
+                          variant="rectangular"
+                          className="col-md-12 my-4 p-4"
+                          height={190}
+                          style={{borderRadius:'20px'}}
+                        />
+                        <Skeleton
+                          variant="rectangular"
+                          className="col-md-12 my-4 p-4"
+                          height={190}
+                          style={{borderRadius:'20px'}}
+                        />
+                        <Skeleton
+                          variant="rectangular"
+                          className="col-md-12 my-4 p-4"
+                          height={190}
+                          style={{borderRadius:'20px'}}
+                        />
+                      </div>
+                    ) :(
                     datalink && Object.entries(datalink).reverse().map(([key, data]) => (
                       <LinkColle data={data} key={key} id={key} />
                     ))
+                    )
                   }
 
                 </div>

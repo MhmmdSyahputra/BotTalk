@@ -17,6 +17,8 @@ export const DetailNote = () => {
     const [datanote, setDataNote] = useState([])
     const [isupdate, setIsupdate] = useState(false)
 
+    
+
     const [title, setTitle] = useState()
     const [content, setContent] = useState()
 
