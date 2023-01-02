@@ -91,7 +91,7 @@ export const DetailNote = () => {
                                                         </p>
                                                     </div>
                                                 ) : (
-                                                    <div className="col-md-12 my-4 p-4 body-link text-start" key={key}>
+                                                    <div className="col-md-12 my-4 p-4 body-link text-start"  key={key}>
                                                         <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
                                                             {data.title} |
                                                             <i className="thisIcon mx-2 fa-solid fs-6 text-warning fa-pen-to-square" onClick={() => setIsupdate(() => true)}></i>

@@ -44,12 +44,15 @@ code {
 .content2{
   height: 70vh;
   overflow: auto;
+  width: 100%;
 }
 
 .body-link{
   border-top: 0.5px solid orange;
   border-left: 5px solid orange;
   border-radius: 20px;
+  max-width: 100%;
+  word-wrap: break-word;
 }
 
 .btn {
