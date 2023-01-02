@@ -34,20 +34,7 @@ export const DetailNote = () => {
         })
     }, []);
 
-    // useEffect(() => {
-    //     datanote && Object.entries(datanote)
-    //         .filter(([key, data]) => key == getidnote)
-    //         .map(([key, data]) => {
-    //             const dataOld = data
-    //             setUpTitle(dataOld.title)
-    //             setUpContent(dataOld.content)
-    //             console.log(dataOld.title);
-    //         })
-
-    // }, []);
-
-
-
+    // create new data
     const createData = () => {
         const db = getDatabase();
 
@@ -66,12 +53,14 @@ export const DetailNote = () => {
 
     }
 
+    // get value data old 
     const onUpdate = (title,content) =>{
         setUpTitle(title)
         setUpContent(content)
         setIsupdate(true)
     }
 
+    // update data 
     const updateData = () => {
         const db = getDatabase();
 
@@ -96,7 +85,7 @@ export const DetailNote = () => {
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-md-7 content">
-                        <div className="row content2 p-3" style={{ height: '80vh' }}>
+                        <div className="row content2 p-3" style={{ height: '89vh' }}>
                             {
                                 getidnote ? (
                                     datanote && Object.entries(datanote)
