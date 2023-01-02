@@ -8,12 +8,7 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
+      "src": "https://media.discordapp.net/attachments/999546779882233869/1059353061094588466/coverapp-removebg-preview_1.png",
       "type": "image/png",
       "sizes": "512x512"
     }
