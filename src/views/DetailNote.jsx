@@ -34,15 +34,17 @@ export const DetailNote = () => {
         })
     }, []);
 
-    useEffect(() => {
-        datanote && Object.entries(datanote)
-            .filter(([key, data]) => key == getidnote)
-            .map(([key, data]) => {
-                setUpTitle(data.title)
-                setUpContent(data.content)
-            })
+    // useEffect(() => {
+    //     datanote && Object.entries(datanote)
+    //         .filter(([key, data]) => key == getidnote)
+    //         .map(([key, data]) => {
+    //             const dataOld = data
+    //             setUpTitle(dataOld.title)
+    //             setUpContent(dataOld.content)
+    //             console.log(dataOld.title);
+    //         })
 
-    }, []);
+    // }, []);
 
 
 
@@ -64,17 +66,27 @@ export const DetailNote = () => {
 
     }
 
+    const onUpdate = (title,content) =>{
+        setUpTitle(title)
+        setUpContent(content)
+        setIsupdate(true)
+    }
+
     const updateData = () => {
         const db = getDatabase();
 
         update(ref(db, 'my-note/' + getidnote), {
-            name: title,
-            content: content
+            title: uptitle,
+            content: upcontent
+        }).then(()=>{
+            toast.success("Data Berhasil DiUpdate ", {
+                position: "top|right",
+                margin: 15,
+                delay: 0,
+                duration: 2000,
+            })
+            navigate("/Note/");
         });
-    }
-
-    const detailNote = (id) => {
-        navigate("/DetailNote/" + id);
     }
 
 
@@ -102,13 +114,13 @@ export const DetailNote = () => {
                                                     </div>
 
                                                     <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
-                                                        <input type="text" onChange={e => setTitle(e.target.value)} value={uptitle} autoComplete="off" placeholder="Nama" className="form-control my-3" />
+                                                        <input type="text" onChange={e => setUpTitle(e.target.value)} value={uptitle} autoComplete="off" placeholder="Nama" className="form-control my-3" />
                                                     </h2>
                                                     <p>
                                                         <CKEditor
-                                                            content={data.content}
+                                                            content={upcontent}
                                                             events={{
-                                                                "change": (e) => setContent(e.editor.getData())
+                                                                "change": (e) => setUpContent(e.editor.getData())
                                                             }}
                                                         />
                                                     </p>
@@ -117,7 +129,7 @@ export const DetailNote = () => {
                                                 <div className="col-md-12 my-4 p-4 body-link text-start" key={key}>
                                                     <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
                                                         {data.title} |
-                                                        <i className="thisIcon mx-2 fa-solid fs-6 text-warning fa-pen-to-square" onClick={() => setIsupdate(() => true)}></i>
+                                                        <i className="thisIcon mx-2 fa-solid fs-6 text-warning fa-pen-to-square" onClick={() => onUpdate(data.title,data.content)}></i>
                                                     </h2>
                                                     <p>
                                                         {parse(data.content)}

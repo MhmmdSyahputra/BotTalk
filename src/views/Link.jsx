@@ -29,12 +29,6 @@ export const MyLink = () => {
 
   const createData = () => {
     const db = getDatabase();
-    // let data = {
-    //   name: name,
-    //   link: link
-    // };
-    // db.ref('my-link').push(data);
-
     push(ref(db, 'my-link'), {
       name: namelink,
       link: link
@@ -62,7 +56,7 @@ export const MyLink = () => {
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title" id="exampleModalToggleLabel">Tambah Data Baru</h5>
+                      <h5 className="modal-title text-dark fs-1" id="exampleModalToggleLabel">Tambah Data Baru</h5>
                       <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div className="modal-body">
@@ -70,7 +64,7 @@ export const MyLink = () => {
                       <input type="text" onChange={e => setLink(e.target.value)} value={link} autoComplete="off" placeholder="Link" className="form-control my-3" />
                     </div>
                     <div className="modal-footer">
-                      <button className="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+                      <button className="btn btn-success" style={{border:'0px solid green'}}  data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
                         data-bs-dismiss="modal" onClick={() => createData()}>Save</button>
                     </div>
                   </div>
