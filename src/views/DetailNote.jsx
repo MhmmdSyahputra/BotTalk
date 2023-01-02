@@ -80,84 +80,83 @@ export const DetailNote = () => {
 
     return (
         <>
-            <div className="header">
-                <div className="container">
-                    <div className="row d-flex justify-content-center">
-                        <div className="col-md-7 content">
-                            <div className="row content2 p-3" style={{ height: '80vh' }}>
-                                {
-                                    getidnote ? (
-                                        datanote && Object.entries(datanote)
-                                            .filter(([key, data]) => key == getidnote)
-                                            .map(([key, data]) => (
-                                                isupdate ? (
-                                                    <div className="col-md-12 my-4 p-4 body-link text-start" >
-                                                        <div className="row">
-                                                            <div className="col">
-                                                                <button className='btn' onClick={() => setIsupdate(() => false)} style={{ border: '2px solid red' }}>batal</button>
-                                                            </div>
-                                                            <div className="col text-end">
-                                                                <button className='btn' onClick={() => updateData()}>Update</button>
-                                                            </div>
+
+            <div className="container">
+                <div className="row d-flex justify-content-center">
+                    <div className="col-md-7 content">
+                        <div className="row content2 p-3" style={{ height: '80vh' }}>
+                            {
+                                getidnote ? (
+                                    datanote && Object.entries(datanote)
+                                        .filter(([key, data]) => key == getidnote)
+                                        .map(([key, data]) => (
+                                            isupdate ? (
+                                                <div className="col-md-12 my-4 p-4 body-link text-start" >
+                                                    <div className="row">
+                                                        <div className="col">
+                                                            <button className='btn' onClick={() => setIsupdate(() => false)} style={{ border: '2px solid red' }}>batal</button>
                                                         </div>
+                                                        <div className="col text-end">
+                                                            <button className='btn' onClick={() => updateData()}>Update</button>
+                                                        </div>
+                                                    </div>
 
-                                                        <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
-                                                            <input type="text" onChange={e => setTitle(e.target.value)} value={uptitle} autoComplete="off" placeholder="Nama" className="form-control my-3" />
-                                                        </h2>
-                                                        <p>
-                                                            <CKEditor
-                                                                content={data.content}
-                                                                events={{
-                                                                    "change": (e) => setContent(e.editor.getData())
-                                                                }}
-                                                            />
-                                                        </p>
-                                                    </div>
-                                                ) : (
-                                                    <div className="col-md-12 my-4 p-4 body-link text-start" key={key}>
-                                                        <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
-                                                            {uptitle} |
-                                                            <i className="thisIcon mx-2 fa-solid fs-6 text-warning fa-pen-to-square" onClick={() => setIsupdate(() => true)}></i>
-                                                        </h2>
-                                                        <p>
-                                                            {parse(data.content)}
-                                                        </p>
-                                                    </div>
-                                                )
-                                            ))
-                                    )
-                                        :
-                                        (
-
-                                            <div className="col-md-12 my-4 p-4 body-link text-start" >
-                                                <div className="row">
-                                                    <div className="col">
-                                                        <Link to='/Note' className='btn' style={{ border: '2px solid red' }}>batal</Link>
-
-                                                    </div>
-                                                    <div className="col text-end">
-                                                        <button className='btn' onClick={() => createData()}>Simpan</button>
-                                                    </div>
+                                                    <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
+                                                        <input type="text" onChange={e => setTitle(e.target.value)} value={uptitle} autoComplete="off" placeholder="Nama" className="form-control my-3" />
+                                                    </h2>
+                                                    <p>
+                                                        <CKEditor
+                                                            content={data.content}
+                                                            events={{
+                                                                "change": (e) => setContent(e.editor.getData())
+                                                            }}
+                                                        />
+                                                    </p>
                                                 </div>
-                                                <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
-                                                    <input type="text" onChange={e => setTitle(e.target.value)} value={title} autoComplete="off" placeholder="Nama" className="form-control my-3" />
-                                                </h2>
-                                                <p>
-                                                    <CKEditor
-                                                        content={content}
-                                                        events={{
-                                                            "change": (e) => setContent(e.editor.getData())
-                                                        }}
-                                                    />
-                                                </p>
+                                            ) : (
+                                                <div className="col-md-12 my-4 p-4 body-link text-start" key={key}>
+                                                    <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
+                                                        {data.title} |
+                                                        <i className="thisIcon mx-2 fa-solid fs-6 text-warning fa-pen-to-square" onClick={() => setIsupdate(() => true)}></i>
+                                                    </h2>
+                                                    <p>
+                                                        {parse(data.content)}
+                                                    </p>
+                                                </div>
+                                            )
+                                        ))
+                                )
+                                    :
+                                    (
+
+                                        <div className="col-md-12 my-4 p-4 body-link text-start" >
+                                            <div className="row">
+                                                <div className="col">
+                                                    <Link to='/Note' className='btn' style={{ border: '2px solid red' }}>batal</Link>
+
+                                                </div>
+                                                <div className="col text-end">
+                                                    <button className='btn' onClick={() => createData()}>Simpan</button>
+                                                </div>
                                             </div>
+                                            <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
+                                                <input type="text" onChange={e => setTitle(e.target.value)} value={title} autoComplete="off" placeholder="Nama" className="form-control my-3" />
+                                            </h2>
+                                            <p>
+                                                <CKEditor
+                                                    content={content}
+                                                    events={{
+                                                        "change": (e) => setContent(e.editor.getData())
+                                                    }}
+                                                />
+                                            </p>
+                                        </div>
 
 
-                                        )
-                                }
+                                    )
+                            }
 
 
-                            </div>
                         </div>
                     </div>
                 </div>
