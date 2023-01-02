@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getDatabase, ref, push, onValue } from "firebase/database";
+import { getDatabase, ref, push, update, onValue } from "firebase/database";
 import firebase from '../config';
 import parse from 'html-react-parser';
 import { Link, useLocation } from 'react-router-dom';
@@ -17,10 +17,13 @@ export const DetailNote = () => {
     const [datanote, setDataNote] = useState([])
     const [isupdate, setIsupdate] = useState(false)
 
-    
+
 
     const [title, setTitle] = useState()
     const [content, setContent] = useState()
+
+    const [uptitle, setUpTitle] = useState()
+    const [upcontent, setUpContent] = useState()
 
     //   read all cht
     useEffect(() => {
@@ -30,6 +33,17 @@ export const DetailNote = () => {
             setDataNote(data)
         })
     }, []);
+
+    useEffect(() => {
+        datanote && Object.entries(datanote)
+            .filter(([key, data]) => key == getidnote)
+            .map(([key, data]) => {
+                setUpTitle(data.title)
+                setUpContent(data.content)
+            })
+
+    }, []);
+
 
 
     const createData = () => {
@@ -48,6 +62,15 @@ export const DetailNote = () => {
             navigate("/Note/");
         });
 
+    }
+
+    const updateData = () => {
+        const db = getDatabase();
+
+        update(ref(db, 'my-note/' + getidnote), {
+            name: title,
+            content: content
+        });
     }
 
     const detailNote = (id) => {
@@ -74,12 +97,12 @@ export const DetailNote = () => {
                                                                 <button className='btn' onClick={() => setIsupdate(() => false)} style={{ border: '2px solid red' }}>batal</button>
                                                             </div>
                                                             <div className="col text-end">
-                                                                <button className='btn'>Update</button>
+                                                                <button className='btn' onClick={() => updateData()}>Update</button>
                                                             </div>
                                                         </div>
 
                                                         <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
-                                                            <input type="text" value={data.title} autoComplete="off" placeholder="Nama" className="form-control my-3" />
+                                                            <input type="text" onChange={e => setTitle(e.target.value)} value={uptitle} autoComplete="off" placeholder="Nama" className="form-control my-3" />
                                                         </h2>
                                                         <p>
                                                             <CKEditor
@@ -91,9 +114,9 @@ export const DetailNote = () => {
                                                         </p>
                                                     </div>
                                                 ) : (
-                                                    <div className="col-md-12 my-4 p-4 body-link text-start"  key={key}>
+                                                    <div className="col-md-12 my-4 p-4 body-link text-start" key={key}>
                                                         <h2 className='fs-3 sticky-xl-top p-3 mx-0' style={{ backgroundColor: '#181C23', top: '-20px' }}>
-                                                            {data.title} |
+                                                            {uptitle} |
                                                             <i className="thisIcon mx-2 fa-solid fs-6 text-warning fa-pen-to-square" onClick={() => setIsupdate(() => true)}></i>
                                                         </h2>
                                                         <p>
