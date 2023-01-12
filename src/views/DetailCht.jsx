@@ -40,14 +40,14 @@ export const DetailCht = () => {
                             <div className="col-md-12 my-4 p-4 ">
                                 {
                                     allmessage &&
-                                    Object.entries(allmessage)
+                                    Object.entries(allmessage)  
                                         .map(([key, data]) => (
                                             <div>
-                                                <div className={`row ${data.who == dataUser.uid ? 'd-flex justify-content-end' : ''} `}>
-                                                    <div className={`col-md-12 my-3 p-2 ${data.who == dataUser.uid ? 'text-end' : 'text-start'} `}
+                                                <div className={`row ${data.uid == dataUser.uid ? 'd-flex justify-content-end' : ''} `}>
+                                                    <div className={`col-md-12 my-3 p-2 ${data.uid == dataUser.uid ? 'text-end' : 'text-start'} `}
                                                         style={{
-                                                            borderRight: data.who == dataUser.uid ? '2px solid #FFA500' : 'none',
-                                                            borderLeft: data.who != dataUser.uid ? '2px solid #FFA500' : 'none',
+                                                            borderRight: data.uid == dataUser.uid ? '2px solid #FFA500' : 'none',
+                                                            borderLeft: data.uid != dataUser.uid ? '2px solid #FFA500' : 'none',
                                                             maxWidth: '50vh'
                                                         }}>
                                                         <div className='pb-3 fw-bold'>
