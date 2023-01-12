@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 // import firebase from '../config';
 import { getDatabase, ref, push, onValue, set, auth } from "firebase/database";
 import { firebaseAuth, firebaseAuthWithFire } from '../config';
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import toast from 'siiimple-toast';
+import { signInWithGoogle } from '../config';
+import GoogleButton from 'react-google-button'
 import 'siiimple-toast/dist/style.css';// st
 import { ChtGroup } from '../components/ChtGroup';
+
 export const Home = () => {
 
     const [email, setEmail] = useState()
@@ -16,23 +19,34 @@ export const Home = () => {
     const [namegroup, setNameGroup] = useState('')
     const [datagroup, setDataGroup] = useState('')
 
+    const loginWithGoogle = () => {
+        const auth = getAuth()
+        const provider = new GoogleAuthProvider()
+        signInWithPopup(auth, provider)
+        .then((res)=>{
+            console.log(res.user);
+        }).catch((err)=>{
+            console.log(err);
+        })  
+    }
 
-     //   read all cht
-  useEffect(() => {
-    const db = getDatabase();
-    onValue(ref(db, "group-cht"), (snapshot) => {
-      const data = snapshot.val();
-      setDataGroup(data);
-    //   setLoading(false);
-    });
-  }, []);
+
+    //   read all cht
+    useEffect(() => {
+        const db = getDatabase();
+        onValue(ref(db, "group-cht"), (snapshot) => {
+            const data = snapshot.val();
+            setDataGroup(data);
+            //   setLoading(false);
+        });
+    }, []);
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (user) => {
             if (user) {
                 setUid(user.uid);
                 setDoLogin(true)
-                window.localStorage.setItem("uid",user.uid)   
+                window.localStorage.setItem("uid", user.uid)
             } else {
                 setDoLogin(false)
             }
@@ -122,13 +136,13 @@ export const Home = () => {
                                                 {
                                                     datagroup &&
                                                     Object.entries(datagroup)
-                                                      .reverse()
-                                                      .map(([key, data]) => (
-                                                        <ChtGroup key={key} data={data} id={key}/>
-                                                      ))
-                                                  
+                                                        .reverse()
+                                                        .map(([key, data]) => (
+                                                            <ChtGroup key={key} data={data} id={key} />
+                                                        ))
+
                                                 }
-                                                
+
                                             </div>
 
                                         </div>
@@ -139,7 +153,15 @@ export const Home = () => {
                                 dologin ? (
                                     <a className="btn btnAdd" onClick={() => logout()}>Logout</a>
                                 ) : (
-                                    <a className="btn btnAdd" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Login</a>
+                                    <div>
+                                        <a className="btn btnAdd" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Login</a>
+                                        <div className="d-flex justify-content-center mb-5">
+                                        <GoogleButton
+                                            label='Sign Up With Google'
+                                            onClick={() => loginWithGoogle()}
+                                        />
+                                    </div>
+                                    </div>
                                 )
                             }
                         </div>
@@ -148,10 +170,14 @@ export const Home = () => {
                             tabndex="-1">
                             <div className="modal-dialog modal-dialog-centered">
                                 <div className="modal-content">
+
                                     <div className="modal-header">
                                         <h5 className="modal-title text-dark fs-1 text-center" id="exampleModalToggleLabel">Login</h5>
                                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
+
+                                    
+
                                     <form onSubmit={login}>
                                         <div className="modal-body">
                                             <input type="text" onChange={e => setEmail(e.target.value)} value={email} autoComplete="off" placeholder="Email" className="form-control my-3" />
@@ -162,6 +188,7 @@ export const Home = () => {
                                                 data-bs-dismiss="modal" type='submit'>Login</button>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>

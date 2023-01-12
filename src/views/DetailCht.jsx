@@ -38,6 +38,7 @@ export const DetailCht = () => {
                     <div className="col-md-7 content">
                         <div className="row content2 p-3" style={{ height: '85vh' }}>
                             <div className="col-md-12 my-4 p-4 ">
+                                {uid}
                                 {
                                     allmessage &&
                                     Object.entries(allmessage)
@@ -48,7 +49,7 @@ export const DetailCht = () => {
                                                      style={{ 
                                                         borderRight: data.who == uid  ? '2px solid #FFA500' : 'none',
                                                         borderLeft: data.who != uid  ? '2px solid #FFA500' : 'none',
-                                                        maxWidth: '50vh',borderTop: '0.5px solid #FFA500' }}> {data.cht} </div>
+                                                        maxWidth: '50vh' }}> {data.cht} </div>
                                                 </div>
 
                                             </div>
