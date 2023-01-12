@@ -44,9 +44,15 @@ export const Home = () => {
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (user) => {
             if (user) {
-                setUid(user.uid);
+                const userData = {
+                    uid: user.uid,
+                    displayName: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL
+                }
+
                 setDoLogin(true)
-                window.localStorage.setItem("uid", user.uid)
+                window.localStorage.setItem("dataUser", JSON.stringify(userData))
             } else {
                 setDoLogin(false)
             }
