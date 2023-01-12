@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { Header } from "../components/Header";
+import { DetailCht } from "../views/DetailCht";
 import { DetailNote } from "../views/DetailNote";
 import { Home } from "../views/Home";
 import { MyLink } from "../views/Link";
@@ -15,6 +16,7 @@ const Pages = () => {
         <Route exact path="/Note" element={<MyNote />} />
         <Route exact path="/DetailNote/:id" element={<DetailNote />} />
         <Route exact path="/NewNote" element={<DetailNote />} />
+        <Route exact path="/Chat/:id" element={<DetailCht/>} />
       </Routes>
       
       {/* <Footer /> */}

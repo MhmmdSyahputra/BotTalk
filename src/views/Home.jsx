@@ -5,7 +5,7 @@ import { firebaseAuth, firebaseAuthWithFire } from '../config';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import toast from 'siiimple-toast';
 import 'siiimple-toast/dist/style.css';// st
-// Initialize Firebase
+import { ChtGroup } from '../components/ChtGroup';
 export const Home = () => {
 
     const [email, setEmail] = useState()
@@ -13,12 +13,26 @@ export const Home = () => {
     const [dologin, setDoLogin] = useState(false)
     const [uid, setUid] = useState(false)
 
+    const [namegroup, setNameGroup] = useState('')
+    const [datagroup, setDataGroup] = useState('')
+
+
+     //   read all cht
+  useEffect(() => {
+    const db = getDatabase();
+    onValue(ref(db, "group-cht"), (snapshot) => {
+      const data = snapshot.val();
+      setDataGroup(data);
+    //   setLoading(false);
+    });
+  }, []);
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (user) => {
             if (user) {
-                setUid(user.id);
+                setUid(user.uid);
                 setDoLogin(true)
+                window.localStorage.setItem("uid",user.uid)   
             } else {
                 setDoLogin(false)
             }
@@ -52,6 +66,18 @@ export const Home = () => {
     const logout = () => {
         signOut(firebaseAuthWithFire)
     }
+    const CreateGroup = (event) => {
+        event.preventDefault();
+
+        const db = getDatabase();
+        push(ref(db, 'group-cht'), {
+            namagroup: namegroup,
+        });
+
+        setNameGroup('')
+
+
+    }
 
     return (
         <>
@@ -67,27 +93,44 @@ export const Home = () => {
                                     dologin ? (
                                         <div>
                                             <div className="text-end">
-                                                <button className='btn btnAdd mb-5' style={{ minWidth: '150px' }}>Cari Teman</button>
+                                                <button className='btn btnAdd mb-5' data-bs-toggle="modal" href="#creategroup" role="button" style={{ minWidth: '150px' }}>Buat Group</button>
+
+                                                <div className="modal fade" id="creategroup" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+                                                    tabndex="-1">
+                                                    <div className="modal-dialog modal-dialog-centered">
+                                                        <div className="modal-content">
+                                                            <div className="modal-header">
+                                                                <h5 className="modal-title text-dark fs-1 text-center" id="exampleModalToggleLabel">Create New Group</h5>
+                                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <form onSubmit={CreateGroup}>
+                                                                <div className="modal-body">
+                                                                    <input type="text" onChange={e => setNameGroup(e.target.value)} value={namegroup} autoComplete="off" placeholder="Nama Group" className="form-control my-3" />
+                                                                </div>
+                                                                <div className="modal-footer">
+                                                                    <button className="btn btn-success" style={{ border: '0px solid green' }} data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
+                                                                        data-bs-dismiss="modal" type='submit'>Create</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             <div className="fs-4 text-start mx-3">Friends</div>
-                                            <div className="col-md-12 my-2 pb-4 px-4 p-3 text-start" style={{ maxHeight: '20%', minHeight: '15%', backgroundColor: '#181C20' }}>
-                                                <h2 className='fs-3 mx-4'>
-                                                    Wahyu
-                                                    <div className='fs-6 mt-2'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab, totam?</div>
-                                                </h2>
+                                            <div className="row">
+                                                {
+                                                    datagroup &&
+                                                    Object.entries(datagroup)
+                                                      .reverse()
+                                                      .map(([key, data]) => (
+                                                        <ChtGroup key={key} data={data} id={key}/>
+                                                      ))
+                                                  
+                                                }
+                                                
                                             </div>
-                                            <div className="col-md-12 my-2 pb-4 px-4 p-3 text-start" style={{ maxHeight: '20%', minHeight: '15%', backgroundColor: '#181C20' }}>
-                                                <h2 className='fs-3 mx-4'>
-                                                    Aldi
-                                                    <div className='fs-6 mt-2'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab, totam?</div>
-                                                </h2>
-                                            </div>
-                                            <div className="col-md-12 my-2 pb-4 px-4 p-3 text-start" style={{ maxHeight: '20%', minHeight: '15%', backgroundColor: '#181C20' }}>
-                                                <h2 className='fs-3 mx-4'>
-                                                    Pane
-                                                    <div className='fs-6 mt-2'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab, totam?</div>
-                                                </h2>
-                                            </div>
+
                                         </div>
                                     ) : ('Silahkan Login Dahulu')
                                 }
