@@ -16,6 +16,7 @@ export const Header = () => {
                             <Link to='/Note' className={`col p-1 fw-bold text-decoration-none text-light ${location.pathname === '/Note' ? 'active' : ''}`}>Note</Link>
                             <Link to='/Link' className={`col p-1 fw-bold text-decoration-none text-light ${location.pathname === '/Link' ? 'active' : ''}`}>Link</Link>
                             <Link to='/' className={`col p-1 fw-bold text-decoration-none text-light ${location.pathname === '/' ? 'active' : ''}`}>Chat</Link>
+                            <Link to='/ChtBot' className={`col p-1 fw-bold text-decoration-none text-light ${location.pathname === '/ChtBot' ? 'active' : ''}`}>Chat Bot</Link>
                         </div>
                       </div>
                     </div>
