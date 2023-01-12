@@ -14,7 +14,7 @@ export const DetailCht = () => {
     //   read all cht
     useEffect(() => {
         const db = getDatabase();
-        onValue(ref(db, `group-cht/${id}`), (snapshot) => {
+        onValue(ref(db, `group-cht/${id}/pesan`), (snapshot) => {
             const data = snapshot.val();
             setAllmessage(data);
         });
@@ -24,7 +24,7 @@ export const DetailCht = () => {
         event.preventDefault();
 
         const db = getDatabase();
-        push(ref(db, `group-cht/${id}/`), {
+        push(ref(db, `group-cht/${id}/pesan/`), {
             uid: dataUser.uid,
             name: dataUser.displayName,
             cht: newmessage,

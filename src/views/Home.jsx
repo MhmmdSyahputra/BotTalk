@@ -19,15 +19,16 @@ export const Home = () => {
     const [namegroup, setNameGroup] = useState('')
     const [datagroup, setDataGroup] = useState('')
 
+
     const loginWithGoogle = () => {
         const auth = getAuth()
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
-        .then((res)=>{
-            console.log(res.user);
-        }).catch((err)=>{
-            console.log(err);
-        })  
+            .then((res) => {
+                console.log(res.user);
+            }).catch((err) => {
+                console.log(err);
+            })
     }
 
 
@@ -43,7 +44,8 @@ export const Home = () => {
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (user) => {
-            if (user) {
+            if (user) {                
+
                 const userData = {
                     uid: user.uid,
                     displayName: user.displayName,
@@ -59,29 +61,6 @@ export const Home = () => {
         });
     }, [])
 
-    const login = (event) => {
-        event.preventDefault();
-        signInWithEmailAndPassword(firebaseAuthWithFire, email, password)
-            .then((response) => {
-                const db = getDatabase();
-                set(ref(db, 'users/' + response.user.uid), {
-                    displayName: response.user.displayName,
-                    email: response.user.email,
-                    photoURL: response.user.photoURL
-                });
-                setEmail('')
-                setPassword('')
-            }).catch(() => {
-                toast.alert("Gagal! Email / Password Salah", {
-                    position: "top|right",
-                    margin: 15,
-                    delay: 0,
-                    duration: 2000,
-                })
-                setEmail('')
-                setPassword('')
-            })
-    }
 
     const logout = () => {
         signOut(firebaseAuthWithFire)
@@ -159,42 +138,17 @@ export const Home = () => {
                                     <div>
                                         {/* <a className="btn btnAdd" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Login</a> */}
                                         <div className="d-flex justify-content-center mb-5">
-                                        <GoogleButton
-                                            label='Sign In With Google'
-                                            onClick={() => loginWithGoogle()}
-                                        />
-                                    </div>
+                                            <GoogleButton
+                                                label='Sign In With Google'
+                                                onClick={() => loginWithGoogle()}
+                                            />
+                                        </div>
                                     </div>
                                 )
                             }
                         </div>
 
-                        <div className="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-                            tabndex="-1">
-                            <div className="modal-dialog modal-dialog-centered">
-                                <div className="modal-content">
-
-                                    <div className="modal-header">
-                                        <h5 className="modal-title text-dark fs-1 text-center" id="exampleModalToggleLabel">Login</h5>
-                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-
-                                    
-
-                                    <form onSubmit={login}>
-                                        <div className="modal-body">
-                                            <input type="text" onChange={e => setEmail(e.target.value)} value={email} autoComplete="off" placeholder="Email" className="form-control my-3" />
-                                            <input type="password" onChange={e => setPassword(e.target.value)} value={password} autoComplete="off" placeholder="Password" className="form-control my-3" />
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button className="btn btn-success" style={{ border: '0px solid green' }} data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-                                                data-bs-dismiss="modal" type='submit'>Login</button>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
