@@ -104,16 +104,13 @@ export const Home = () => {
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-md-7 content">
-                        Comming Soon!
-
-
                         <div className="text-center">
                             <div className='mb-3 fs-1 fw-bold'>
                                 {
                                     dologin ? (
                                         <div>
                                             <div className="text-end">
-                                                <button className='btn btnAdd mb-5' data-bs-toggle="modal" href="#creategroup" role="button" style={{ minWidth: '150px' }}>Buat Group</button>
+                                                <button className='btn btnAdd my-4' data-bs-toggle="modal" href="#creategroup" role="button" style={{ minWidth: '150px' }}>Buat Group</button>
 
                                                 <div className="modal fade" id="creategroup" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
                                                     tabndex="-1">
@@ -160,10 +157,10 @@ export const Home = () => {
                                     <a className="btn btnAdd" onClick={() => logout()}>Logout</a>
                                 ) : (
                                     <div>
-                                        <a className="btn btnAdd" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Login</a>
+                                        {/* <a className="btn btnAdd" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Login</a> */}
                                         <div className="d-flex justify-content-center mb-5">
                                         <GoogleButton
-                                            label='Sign Up With Google'
+                                            label='Sign In With Google'
                                             onClick={() => loginWithGoogle()}
                                         />
                                     </div>
