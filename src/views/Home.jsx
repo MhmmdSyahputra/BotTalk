@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 // import firebase from '../config';
-import { getDatabase, ref, push, onValue, set, auth } from "firebase/database";
+import { getDatabase, ref, query, orderByChild, push, onValue, set, auth, } from "firebase/database";
 import { firebaseAuth, firebaseAuthWithFire } from '../config';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import toast from 'siiimple-toast';
@@ -25,7 +25,13 @@ export const Home = () => {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
             .then((res) => {
-                console.log(res.user);
+                // const db = getDatabase();
+                // push(ref(db, 'users'), {
+                //     uid: res.uid,
+                //     displayName: res.displayName,
+                //     email: res.email,
+                //     photoURL: res.photoURL
+                // });
             }).catch((err) => {
                 console.log(err);
             })
@@ -44,7 +50,15 @@ export const Home = () => {
 
     useEffect(() => {
         onAuthStateChanged(firebaseAuth, (user) => {
-            if (user) {                
+            if (user) {
+
+                    const db = getDatabase();
+                    // push(ref(db, 'users'), {
+                    //     uid: user.uid,
+                    //     displayName: user.displayName,
+                    //     email: user.email,
+                    //     photoURL: user.photoURL
+                    // });
 
                 const userData = {
                     uid: user.uid,
@@ -52,6 +66,29 @@ export const Home = () => {
                     email: user.email,
                     photoURL: user.photoURL
                 }
+
+                const auth = getAuth();
+
+                onValue(ref(db, "users").orderByChild(user.uid), (snapshot) => {
+                    const data = snapshot.val();
+                    console.log(data);
+                });
+                // const db = getDatabase();
+                // onValue(ref(db, "users"), (snapshot) => {
+                //     const data = snapshot.val();
+                //     if (!data || data.uid !== user.uid) {
+                //         // push(ref(db, 'users'), {
+                //         //     uid: user.uid,
+                //         //     displayName: user.displayName,
+                //         //     email: user.email,
+                //         //     photoURL: user.photoURL
+                //         // });
+                //         console.log('blm ada');
+                //         return
+                //     }else {
+                //         console.log("Data user sudah tersimpan di Firebase Realtime Database");
+                //     }
+                // });
 
                 setDoLogin(true)
                 window.localStorage.setItem("dataUser", JSON.stringify(userData))
@@ -148,7 +185,7 @@ export const Home = () => {
                             }
                         </div>
 
-                        
+
                     </div>
                 </div>
             </div>
