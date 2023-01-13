@@ -1,5 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
-// require('dotenv').config();
+
 
 import React, { useState } from 'react'
 
@@ -15,6 +15,10 @@ export const ChtBot = () => {
     const [people, setPeople] = useState("ME")
 
     const [isLoading, setIsLoading] = useState(false)
+
+
+
+
 
     const [messages, setMessages] = useState([{ message: 'Halo Saya Bot', people: 'Bot' }])
 
@@ -54,7 +58,7 @@ export const ChtBot = () => {
                         <div className="row content2 p-3" style={{ height: '85vh' }}>
                             <div className="col-md-12 my-4 p-4 ">
                                 {messages.map((message, index) => (
-                                    <div>
+                                    <div key={index}>
                                         <div className={`row ${message.people == 'ME' ? 'd-flex justify-content-end' : ''} `}>
                                             <div className={`col-md-12 my-3 p-2 ${message.people == 'ME' ? 'text-end' : 'text-start'} `}
                                                 style={{

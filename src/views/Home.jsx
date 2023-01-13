@@ -69,10 +69,10 @@ export const Home = () => {
 
                 const auth = getAuth();
 
-                onValue(ref(db, "users").orderByChild(user.uid), (snapshot) => {
-                    const data = snapshot.val();
-                    console.log(data);
-                });
+                // onValue(ref(db, "users").orderByChild(user.uid), (snapshot) => {
+                //     const data = snapshot.val();
+                //     console.log(data);
+                // });
                 // const db = getDatabase();
                 // onValue(ref(db, "users"), (snapshot) => {
                 //     const data = snapshot.val();
