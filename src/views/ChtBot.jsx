@@ -1,27 +1,47 @@
-import { async } from '@firebase/util'
+import { Configuration, OpenAIApi } from "openai";
+// require('dotenv').config();
+
 import React, { useState } from 'react'
 
 export const ChtBot = () => {
+    const configuration = new Configuration({
+      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+    });
+    const openai = new OpenAIApi(configuration);
+
+    const [answer, setAnswer] = useState("");
+
     const [message, setMessage] = useState('')
     const [people, setPeople] = useState("ME")
 
     const [isLoading, setIsLoading] = useState(false)
 
-
-
-
-
     const [messages, setMessages] = useState([{ message: 'Halo Saya Bot', people: 'Bot' }])
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
+        const response = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: message,
+            temperature: 0,
+            max_tokens: 100,
+            top_p: 1,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+        });
+
+
         setIsLoading(true)
+
+        setAnswer(response.data.choices[0].text)
+
         const currentMessages = [...messages, { message, people }]
         setMessages(currentMessages)
+
         setMessage('')
         setTimeout(() => {
             setIsLoading(false)
-            setMessages([...currentMessages, { message: 'blm bisa', people: "Bot"}])
+            setMessages([...currentMessages, { message: answer, people: "Bot"}])
         }, 3000)
         
     }
