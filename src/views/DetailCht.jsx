@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useRef } from 'react'
 import { getDatabase, ref, push, onValue, set, auth } from "firebase/database";
 import { firebaseAuth, firebaseAuthWithFire } from '../config';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -20,6 +20,12 @@ export const DetailCht = () => {
         });
     }, []);
 
+    const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }, [allmessage])
+
     const sendMessage = (event) => {
         event.preventDefault();
 
@@ -36,7 +42,7 @@ export const DetailCht = () => {
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-md-7 content">
-                        <div className="row content2 p-3" style={{ height: '85vh' }}>
+                        <div className="row content2 p-3" ref={messagesEndRef} style={{ height: '85vh' }}>
                             <div className="col-md-12 my-4 p-4 ">
                                 {
                                     allmessage &&
@@ -50,10 +56,10 @@ export const DetailCht = () => {
                                                             borderLeft: data.uid != dataUser.uid ? '2px solid #FFA500' : 'none',
                                                             maxWidth: '50vh'
                                                         }}>
-                                                        <div className='pb-3 fw-bold'>
+                                                        <div className='pb-3 fw-bold' style={{wordWrap: 'break-word'}}>
                                                             {data.name}
                                                         </div>
-                                                        <div>
+                                                        <div style={{wordWrap: 'break-word'}}>
                                                             {data.cht}
                                                         </div>
                                                     </div>

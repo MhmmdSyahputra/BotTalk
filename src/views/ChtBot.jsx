@@ -1,32 +1,37 @@
 import { Configuration, OpenAIApi } from "openai";
-
-
-import React, { useState } from 'react'
+import React, { useState, useEffect,useRef } from 'react'
 
 export const ChtBot = () => {
+
+    
     const configuration = new Configuration({
-      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+        apiKey: process.env.REACT_APP_OPENAI_API_KEY,
     });
     const openai = new OpenAIApi(configuration);
 
-    const [answer, setAnswer] = useState("");
-
     const [message, setMessage] = useState('')
     const [people, setPeople] = useState("ME")
-
     const [isLoading, setIsLoading] = useState(false)
-
-
-
-
-
     const [messages, setMessages] = useState([{ message: 'Halo Saya Bot', people: 'Bot' }])
+
+    const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+    }, [messages])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        const inputMessage = e.target.elements.message.value;
+        const currentMessages = [...messages, { message: inputMessage, people }]
+        setMessages(currentMessages)
+        setMessage('')
+        setIsLoading(true)
+
         const response = await openai.createCompletion({
             model: "text-davinci-003",
-            prompt: message,
+            prompt: inputMessage,
             temperature: 0,
             max_tokens: 100,
             top_p: 1,
@@ -34,28 +39,18 @@ export const ChtBot = () => {
             presence_penalty: 0.0,
         });
 
+        setIsLoading(false)
+        setMessages([...currentMessages, { message: response.data.choices[0].text, people: "Bot" }])
 
-        setIsLoading(true)
-
-        setAnswer(response.data.choices[0].text)
-
-        const currentMessages = [...messages, { message, people }]
-        setMessages(currentMessages)
-
-        setMessage('')
-        setTimeout(() => {
-            setIsLoading(false)
-            setMessages([...currentMessages, { message: answer, people: "Bot"}])
-        }, 3000)
-        
     }
+
 
     return (
         <>
             <div className="container">
                 <div className="row d-flex justify-content-center">
                     <div className="col-md-7 content">
-                        <div className="row content2 p-3" style={{ height: '85vh' }}>
+                        <div className="row content2 p-3" ref={messagesEndRef} style={{ height: '85vh' }}>
                             <div className="col-md-12 my-4 p-4 ">
                                 {messages.map((message, index) => (
                                     <div key={index}>
@@ -69,21 +64,28 @@ export const ChtBot = () => {
                                                 <div className='pb-3 fw-bold'>
                                                     {message.people}
                                                 </div>
-                                                <div>
-                                                    <p key={index}>{message.message}</p>
+                                                <div style={{wordWrap: 'break-word'}}>
+                                                    <p key={index}>
+                                                        {message.message}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
 
                                     </div>
                                 ))}
+                                {isLoading ? (
+                                    <div className="spinner-border text-warning" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                ) : ''}
                             </div>
                         </div>
 
                         <div className="form-inline">
                             <form onSubmit={handleSubmit}>
                                 <div className="input-group mb-3">
-                                    <input type="text" autoComplete="off" disabled={isLoading} value={message} onChange={e => setMessage(e.target.value)} className="form-control" placeholder="Pesan.." />
+                                    <input type="text" autoComplete="off" name="message" disabled={isLoading} value={message} onChange={e => setMessage(e.target.value)} className="form-control" placeholder="Pesan.." />
                                     <button type='submit' className='btn' disabled={isLoading}>Kirim</button>
                                 </div>
                             </form>
