@@ -60,7 +60,7 @@ export const BotVoice = () => {
   const [people, setPeople] = useState("ME");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
-    { message: "Halo Saya Bot", people: "Bot" },
+    { message: "Keyboard mu hancur? Pakai Fitur Voice ini", people: "Bot" },
   ]);
 
   const messagesEndRef = useRef(null);

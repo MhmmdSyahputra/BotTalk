@@ -1,14 +1,14 @@
 {
-  "short_name": "MyNote PT",
-  "name": "MyNote PT",
+  "short_name": "BOT TALK",
+  "name": "BOT TALK",
   "icons": [
     {
-      "src": "https://media.discordapp.net/attachments/999546779882233869/1059353061094588466/coverapp-removebg-preview_1.png",
+      "src": "https://img.freepik.com/vecteurs-premium/icone-robot-chat-bot-signe-pour-concept-service-assistance-style-plat-personnage-chatbot_41737-795.jpg?w=2000",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "https://media.discordapp.net/attachments/999546779882233869/1059353061094588466/coverapp-removebg-preview_1.png",
+      "src": "https://img.freepik.com/vecteurs-premium/icone-robot-chat-bot-signe-pour-concept-service-assistance-style-plat-personnage-chatbot_41737-795.jpg?w=2000",
       "type": "image/png",
       "sizes": "512x512"
     }

@@ -11,7 +11,7 @@ export const ChtBot = () => {
   const [people, setPeople] = useState("ME");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
-    { message: "Halo Saya Bot", people: "Bot" },
+    { message: "Tanya apa mau mu, aku siap melayani", people: "Bot" },
   ]);
 
   const messagesEndRef = useRef(null);
