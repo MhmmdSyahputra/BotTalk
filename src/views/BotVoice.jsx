@@ -139,6 +139,7 @@ export const BotVoice = () => {
                     onMouseDown={onMouseDown}
                     onTouchStart={onMouseDown}
                     onTouchEnd={onMouseUp}
+                    onTouchMove={onMouseLeave}
                     onMouseUp={onMouseUp}
                     onMouseLeave={onMouseLeave}
                   >
