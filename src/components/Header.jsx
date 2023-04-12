@@ -27,14 +27,14 @@ export const Header = () => {
                   >
                     Bot Voice
                   </Link>
-                  <Link
+                  {/* <Link
                     to="/"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
                       location.pathname === "/" ? "active" : ""
                     }`}
                   >
                     Chat
-                  </Link>
+                  </Link> */}
                   <Link
                     to="/ChtBot"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
