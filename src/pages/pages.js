@@ -5,22 +5,22 @@ import { ChtBot } from "../views/ChtBot";
 import { DetailCht } from "../views/DetailCht";
 import { DetailNote } from "../views/DetailNote";
 import { Home } from "../views/Home";
-import { MyLink } from "../views/Link";
-import { MyNote } from "../views/Note";
+import { BotVoice } from "../views/BotVoice";
+import { BotImg } from "../views/BotImg";
 const Pages = () => {
   return (
     <>
-    <Header/>
+      <Header />
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route exact path="/Link" element={<MyLink />} />
-        <Route exact path="/Note" element={<MyNote />} />
+        <Route exact path="/BotVoice" element={<BotVoice />} />
+        <Route exact path="/BotImg" element={<BotImg />} />
         <Route exact path="/ChtBot" element={<ChtBot />} />
         <Route exact path="/DetailNote/:id" element={<DetailNote />} />
         <Route exact path="/NewNote" element={<DetailNote />} />
-        <Route exact path="/Chat/:id" element={<DetailCht/>} />
+        <Route exact path="/Chat/:id" element={<DetailCht />} />
       </Routes>
-      
+
       {/* <Footer /> */}
     </>
   );

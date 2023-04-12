@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 import React, { useState, useEffect, useRef } from "react";
 
-export const ChtBot = () => {
+export const BotImg = () => {
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
   });
@@ -11,7 +11,7 @@ export const ChtBot = () => {
   const [people, setPeople] = useState("ME");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
-    { message: "Halo Saya Bot", people: "Bot" },
+    { message: "Ada yang bisa saya gambar?", people: "Bot" },
   ]);
 
   const messagesEndRef = useRef(null);
@@ -28,20 +28,16 @@ export const ChtBot = () => {
     setMessage("");
     setIsLoading(true);
 
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
+    const response = await openai.createImage({
       prompt: inputMessage,
-      temperature: 0,
-      max_tokens: 1000,
-      top_p: 1,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
+      n: 1, //Number of images to generate
+      size: "1024x1024",
     });
 
     setIsLoading(false);
     setMessages([
       ...currentMessages,
-      { message: response.data.choices[0].text, people: "Bot" },
+      { message: response.data.data[0].url, people: "Bot" },
     ]);
   };
 
@@ -83,7 +79,17 @@ export const ChtBot = () => {
                       >
                         <div className="pb-3 fw-bold">{message.people}</div>
                         <div style={{ wordWrap: "break-word" }}>
-                          <p key={index}>{message.message}</p>
+                          {message.people != "ME" && index != 0 ? (
+                            <img
+                              key={index}
+                              className="img-fluid"
+                              width={400}
+                              src={message.message}
+                              alt=""
+                            />
+                          ) : (
+                            <p key={index}>{message.message}</p>
+                          )}
                         </div>
                       </div>
                     </div>

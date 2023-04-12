@@ -1,7 +1,56 @@
 import { Configuration, OpenAIApi } from "openai";
 import React, { useState, useEffect, useRef } from "react";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
-export const ChtBot = () => {
+export const BotVoice = () => {
+  const { transcript, listening, resetTranscript } = useSpeechRecognition();
+
+  const startListening = () => {
+    SpeechRecognition.startListening({ continuous: true, lang: "id-ID" });
+  };
+
+  const stopListening = () => {
+    SpeechRecognition.stopListening();
+  };
+
+  const onMouseDown = () => {
+    resetTranscript();
+    startListening();
+  };
+
+  const onMouseUp = () => {
+    stopListening();
+  };
+
+  const onMouseLeave = async () => {
+    stopListening();
+    if (transcript === "") {
+      return;
+    }
+    const currentMessages = [...messages, { message: transcript, people }];
+    setMessages(currentMessages);
+    setMessage("");
+    setIsLoading(true);
+
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: transcript,
+      temperature: 0,
+      max_tokens: 1000,
+      top_p: 1,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    });
+
+    setIsLoading(false);
+    setMessages([
+      ...currentMessages,
+      { message: response.data.choices[0].text, people: "Bot" },
+    ]);
+  };
+
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
   });
@@ -19,31 +68,6 @@ export const ChtBot = () => {
   useEffect(() => {
     messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
   }, [messages]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const inputMessage = e.target.elements.message.value;
-    const currentMessages = [...messages, { message: inputMessage, people }];
-    setMessages(currentMessages);
-    setMessage("");
-    setIsLoading(true);
-
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: inputMessage,
-      temperature: 0,
-      max_tokens: 1000,
-      top_p: 1,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
-    });
-
-    setIsLoading(false);
-    setMessages([
-      ...currentMessages,
-      { message: response.data.choices[0].text, people: "Bot" },
-    ]);
-  };
 
   return (
     <>
@@ -98,25 +122,21 @@ export const ChtBot = () => {
                 )}
               </div>
             </div>
-
-            <div className="form-inline">
-              <form onSubmit={handleSubmit}>
-                <div className="input-group mb-3">
-                  <input
-                    type="text"
-                    autoComplete="off"
-                    name="message"
-                    disabled={isLoading}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="form-control"
-                    placeholder="Pesan.."
-                  />
-                  <button type="submit" className="btn" disabled={isLoading}>
-                    Kirim
+            <div className="row">
+              <div className="container">
+                <div className="col-md-12">
+                  {/* <p>Microphone: {listening ? "on" : "off"}</p> */}
+                  <button
+                    style={{ width: "200px" }}
+                    className="btn"
+                    onMouseDown={onMouseDown}
+                    onMouseUp={onMouseUp}
+                    onMouseLeave={onMouseLeave}
+                  >
+                    Hold to Talk
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
