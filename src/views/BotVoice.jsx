@@ -6,6 +6,7 @@ import SpeechRecognition, {
 
 export const BotVoice = () => {
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  const [btnIsHold, setbtnIsHold] = useState(false);
 
   const startListening = () => {
     SpeechRecognition.startListening({ continuous: true, lang: "id-ID" });
@@ -16,11 +17,13 @@ export const BotVoice = () => {
   };
 
   const onMouseDown = () => {
+    setbtnIsHold(true);
     resetTranscript();
     startListening();
   };
 
   const onMouseUp = () => {
+    setbtnIsHold(false);
     stopListening();
   };
 
@@ -127,9 +130,14 @@ export const BotVoice = () => {
                 <div className="col-md-12">
                   {/* <p>Microphone: {listening ? "on" : "off"}</p> */}
                   <button
-                    style={{ width: "200px" }}
+                    style={{
+                      width: "200px",
+                      background: btnIsHold ? "#FFA500" : "",
+                    }}
                     className="btn"
+                    onke
                     onMouseDown={onMouseDown}
+                    onTouchStart={onMouseDown}
                     onMouseUp={onMouseUp}
                     onMouseLeave={onMouseLeave}
                   >
