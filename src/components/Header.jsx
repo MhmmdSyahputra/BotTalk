@@ -41,7 +41,7 @@ export const Header = () => {
                       location.pathname === "/ChtBot" ? "active" : ""
                     }`}
                   >
-                    Chat Bot
+                    Bot Chat
                   </Link>
                 </div>
               </div>
