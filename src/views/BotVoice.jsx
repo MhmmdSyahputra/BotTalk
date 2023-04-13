@@ -135,7 +135,6 @@ export const BotVoice = () => {
                       background: btnIsHold ? "#FFA500" : "",
                     }}
                     className="btn"
-                    onke
                     onMouseDown={onMouseDown}
                     onTouchStart={onMouseDown}
                     onTouchEnd={onMouseUp}
