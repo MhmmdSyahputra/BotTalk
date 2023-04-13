@@ -22,8 +22,11 @@
     "react-google-button": "^0.7.2",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "react-speech": "^1.0.2",
     "react-speech-recognition": "^3.10.0",
+    "react-text-to-speech": "^0.4.0",
     "siiimple-toast": "^3.1.7",
+    "text-to-speech-js": "^1.1.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

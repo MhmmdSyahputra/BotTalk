@@ -1,5 +1,6 @@
 import { Configuration, OpenAIApi } from "openai";
 import React, { useState, useEffect, useRef } from "react";
+import Speech from "react-speech";
 
 export const ChtBot = () => {
   const configuration = new Configuration({
@@ -19,9 +20,16 @@ export const ChtBot = () => {
   useEffect(() => {
     messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
   }, [messages]);
-
+  const playSpeech = (text) => {
+    Speech.speak({
+      text: text,
+      voice: "Google UK English Female",
+      lang: "EN-GB",
+    });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const inputMessage = e.target.elements.message.value;
     const currentMessages = [...messages, { message: inputMessage, people }];
     setMessages(currentMessages);
@@ -39,6 +47,7 @@ export const ChtBot = () => {
     });
 
     setIsLoading(false);
+    // Speech.setLanguage("id"); // Set language to Indonesian
     setMessages([
       ...currentMessages,
       { message: response.data.choices[0].text, people: "Bot" },
@@ -83,6 +92,12 @@ export const ChtBot = () => {
                       >
                         <div className="pb-3 fw-bold">{message.people}</div>
                         <div style={{ wordWrap: "break-word" }}>
+                          <Speech
+                            text={message.message}
+                            voice="Google UK English Female"
+                            lang="EN-GB"
+                            autostart={true}
+                          />
                           <p key={index}>{message.message}</p>
                         </div>
                       </div>
