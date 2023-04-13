@@ -1,7 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
 import React, { useState, useEffect, useRef } from "react";
-// import Speech from "react-text-to-speech";
-import Speech from "react-speech";
 import { useSpeechSynthesis } from "react-speech-kit";
 
 import SpeechRecognition, {
@@ -67,7 +65,7 @@ export const BotVoice = () => {
   };
 
   //ON BUTTON HOLD UP ----------------
-  const onMouseUp = async () => {
+  const onMouseUpText = async () => {
     setbtnIsHold(false);
     stopListening();
     if (transcript === "") {
@@ -91,7 +89,6 @@ export const BotVoice = () => {
       presence_penalty: 0.0,
     });
     setIsLoading(false);
-    speak({ text: response.data.choices[0].text });
     //DISPLAY RESPONSE CHT BOT ----------------
     setMessages([
       ...currentMessages,
@@ -99,7 +96,27 @@ export const BotVoice = () => {
     ]);
   };
 
-  //SCROLL AT CONTENT OVERFLOW ----------------
+  //ON BUTTON HOLD UP ----------------
+  const onMouseUpVoice = async () => {
+    setbtnIsHold(false);
+    stopListening();
+    if (transcript === "") {
+      return;
+    }
+    //->OPENAI
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: transcript,
+      temperature: 0,
+      max_tokens: 200,
+      top_p: 1,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    });
+    setIsLoading(false);
+    speak({ text: response.data.choices[0].text });
+  };
+  // // SCROLL AT CONTENT OVERFLOW ----------------
   // useEffect(() => {
   //   messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
   // }, [messages]);
@@ -143,7 +160,7 @@ export const BotVoice = () => {
                   ref={messagesEndRef}
                   style={{ height: "65vh" }}
                 >
-                  <div className="col-md-12 my-4 p-4 ">
+                  <div className="col-md-12 p-4 ">
                     {messages.map((message, index) => (
                       <div key={index}>
                         <div
@@ -218,8 +235,8 @@ export const BotVoice = () => {
                         className="btn"
                         onMouseDown={onMouseDown}
                         onTouchStart={onMouseDown}
-                        onMouseUp={onMouseUp}
-                        onTouchEnd={onMouseUp}
+                        onMouseUp={onMouseUpText}
+                        onTouchEnd={onMouseUpText}
                       >
                         Hold to Talk
                       </button>
@@ -231,7 +248,7 @@ export const BotVoice = () => {
               <>
                 <div className="">
                   <img
-                    src="https://o.remove.bg/downloads/e027b032-00ad-4b30-b177-629f4346e885/image-removebg-preview.png"
+                    src="https://cdn.discordapp.com/attachments/1083786029435191356/1096105703166464111/image-removebg-preview.png"
                     alt=""
                     width="200"
                     style={{ opacity: "0.2" }}
@@ -250,8 +267,8 @@ export const BotVoice = () => {
                   className="btn mt-3"
                   onMouseDown={onMouseDown}
                   onTouchStart={onMouseDown}
-                  onMouseUp={onMouseUp}
-                  onTouchEnd={onMouseUp}
+                  onMouseUp={onMouseUpVoice}
+                  onTouchEnd={onMouseUpVoice}
                 >
                   Hold to Talk
                 </button>
