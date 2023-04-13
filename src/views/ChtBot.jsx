@@ -29,7 +29,7 @@ export const ChtBot = () => {
     setIsLoading(true);
 
     const response = await openai.createCompletion({
-      model: "ode-davinci-001",
+      model: "text-davinci-003",
       prompt: inputMessage,
       temperature: 0,
       max_tokens: 10,
