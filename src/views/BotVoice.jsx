@@ -28,13 +28,17 @@ export const BotVoice = () => {
   });
   const openai = new OpenAIApi(configuration);
 
-  const changePage = () => {
-    if (voicetotext) {
+  const changePage = (text, voice) => {
+    if (text === true && voice === false) {
+      setVoicetoText(true);
+      setVoiceToVoice(false);
+      return;
+    }
+
+    if (text === false && voice === true) {
       setVoicetoText(false);
       setVoiceToVoice(true);
-    } else {
-      setVoiceToVoice(false);
-      setVoicetoText(true);
+      return;
     }
   };
 
@@ -107,8 +111,8 @@ export const BotVoice = () => {
               <div className="col">
                 <button
                   className="btn"
-                  onClick={() => changePage()}
-                  style={{ width: "100%" }}
+                  onClick={() => changePage(true, false)}
+                  style={{ width: "100%", color: voicetotext ? "#00FFCE" : "" }}
                 >
                   Voice to Text
                 </button>
@@ -117,8 +121,11 @@ export const BotVoice = () => {
               <div className="col">
                 <button
                   className="btn"
-                  onClick={() => changePage()}
-                  style={{ width: "100%" }}
+                  onClick={() => changePage(false, true)}
+                  style={{
+                    width: "100%",
+                    color: voicetovoice ? "#00FFCE" : "",
+                  }}
                 >
                   Voice to Voice
                 </button>
@@ -127,95 +134,126 @@ export const BotVoice = () => {
 
             {/* PAGE VOICE TO TEXT --------------- */}
             {voicetotext ? (
-              <div
-                className="row content2 p-3"
-                ref={messagesEndRef}
-                style={{ height: "65vh" }}
-              >
-                <div className="col-md-12 my-4 p-4 ">
-                  {messages.map((message, index) => (
-                    <div key={index}>
-                      <div
-                        className={`row ${
-                          message.people == "ME"
-                            ? "d-flex justify-content-end"
-                            : ""
-                        } `}
-                      >
+              <div>
+                <div
+                  className="row content2 p-3"
+                  ref={messagesEndRef}
+                  style={{ height: "65vh" }}
+                >
+                  <div className="col-md-12 my-4 p-4 ">
+                    {messages.map((message, index) => (
+                      <div key={index}>
                         <div
-                          className={`col-md-12 my-3 p-2 ${
-                            message.people == "ME" ? "text-end" : "text-start"
+                          className={`row ${
+                            message.people == "ME"
+                              ? "d-flex justify-content-end"
+                              : ""
                           } `}
-                          style={{
-                            borderRight:
-                              message.people == "ME"
-                                ? "2px solid #FFA500"
-                                : "none",
-                            borderLeft:
-                              message.people != "ME"
-                                ? "2px solid #FFA500"
-                                : "none",
-                            maxWidth: "50vh",
-                          }}
                         >
-                          <div className="pb-3 fw-bold">{message.people}</div>
-                          <div style={{ wordWrap: "break-word" }}>
-                            <p key={index}>{message.message}</p>
+                          <div
+                            className={`col-md-12 my-3 p-2 ${
+                              message.people == "ME" ? "text-end" : "text-start"
+                            } `}
+                            style={{
+                              borderRight:
+                                message.people == "ME"
+                                  ? "2px solid #FFA500"
+                                  : "none",
+                              borderLeft:
+                                message.people != "ME"
+                                  ? "2px solid #FFA500"
+                                  : "none",
+                              maxWidth: "50vh",
+                            }}
+                          >
+                            <div className="pb-3 fw-bold">{message.people}</div>
+                            <div style={{ wordWrap: "break-word" }}>
+                              <p key={index}>{message.message}</p>
+                            </div>
                           </div>
                         </div>
                       </div>
+                    ))}
+                    {isLoading ? (
+                      <div
+                        className="spinner-border text-warning"
+                        role="status"
+                      >
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="container">
+                    <div className="col-md-12">
+                      <div className="form-inline">
+                        <form>
+                          <div className="input-group mb-3">
+                            <input
+                              type="text"
+                              autoComplete="off"
+                              name="message"
+                              disabled={isLoading}
+                              value={transcript}
+                              onChange={(e) => setMessage(e.target.value)}
+                              className="form-control"
+                              placeholder="Pesan.."
+                              readOnly
+                            />
+                          </div>
+                        </form>
+                      </div>
+                      {/* <p>Microphone: {listening ? "on" : "off"}</p> */}
+                      <button
+                        style={{
+                          width: "200px",
+                          background: btnIsHold ? "#FFA500" : "",
+                        }}
+                        className="btn"
+                        onMouseDown={onMouseDown}
+                        onTouchStart={onMouseDown}
+                        onMouseUp={onMouseUp}
+                        onTouchEnd={onMouseUp}
+                      >
+                        Hold to Talk
+                      </button>
                     </div>
-                  ))}
-                  {isLoading ? (
-                    <div className="spinner-border text-warning" role="status">
-                      <span className="visually-hidden">Loading...</span>
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                  </div>
                 </div>
               </div>
             ) : (
-              "voice to voice"
-            )}
-
-            <div className="row">
-              <div className="container">
-                <div className="col-md-12">
-                  <div className="form-inline">
-                    <form>
-                      <div className="input-group mb-3">
-                        <input
-                          type="text"
-                          autoComplete="off"
-                          name="message"
-                          disabled={isLoading}
-                          value={transcript}
-                          onChange={(e) => setMessage(e.target.value)}
-                          className="form-control"
-                          placeholder="Pesan.."
-                          readOnly
-                        />
-                      </div>
-                    </form>
-                  </div>
-                  {/* <p>Microphone: {listening ? "on" : "off"}</p> */}
-                  <button
-                    style={{
-                      width: "200px",
-                      background: btnIsHold ? "#FFA500" : "",
-                    }}
-                    className="btn"
-                    onMouseDown={onMouseDown}
-                    onTouchStart={onMouseDown}
-                    onMouseUp={onMouseUp}
-                    onTouchEnd={onMouseUp}
-                  >
-                    Hold to Talk
-                  </button>
+              <>
+                <div className="">
+                  <img
+                    src="https://o.remove.bg/downloads/e027b032-00ad-4b30-b177-629f4346e885/image-removebg-preview.png"
+                    alt=""
+                    width="200"
+                    style={{ opacity: "0.2" }}
+                    className="img-fluid mt-5"
+                  />
                 </div>
-              </div>
-            </div>
+                <div className="">
+                  <p>{transcript}</p>
+                </div>
+                <button
+                  style={{
+                    marginTop: "1600vh",
+                    width: "200px",
+                    background: btnIsHold ? "#FFA500" : "",
+                  }}
+                  className="btn mt-3"
+                  onMouseDown={onMouseDown}
+                  onTouchStart={onMouseDown}
+                  onMouseUp={onMouseUp}
+                  onTouchEnd={onMouseUp}
+                >
+                  Hold to Talk
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
