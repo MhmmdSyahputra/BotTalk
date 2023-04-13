@@ -92,12 +92,12 @@ export const ChtBot = () => {
                       >
                         <div className="pb-3 fw-bold">{message.people}</div>
                         <div style={{ wordWrap: "break-word" }}>
-                          <Speech
+                          {/* <Speech
                             text={message.message}
                             voice="Google UK English Female"
                             lang="EN-GB"
                             autostart={true}
-                          />
+                          /> */}
                           <p key={index}>{message.message}</p>
                         </div>
                       </div>

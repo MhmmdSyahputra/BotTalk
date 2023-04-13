@@ -8,17 +8,47 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 
 export const BotVoice = () => {
+  const [message, setMessage] = useState("");
+  const [people, setPeople] = useState("ME");
+  const [isLoading, setIsLoading] = useState(false);
+  const [messages, setMessages] = useState([
+    { message: "Keyboard mu hancur? Pakai Fitur Voice ini", people: "Bot" },
+  ]);
+  const messagesEndRef = useRef(null);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
   const [btnIsHold, setbtnIsHold] = useState(false);
 
+  //PAGE ----------------
+  const [voicetotext, setVoicetoText] = useState(true);
+  const [voicetovoice, setVoiceToVoice] = useState(false);
+
+  //ENV APIKEY OPENAI ----------------
+  const configuration = new Configuration({
+    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
+
+  const changePage = () => {
+    if (voicetotext) {
+      setVoicetoText(false);
+      setVoiceToVoice(true);
+    } else {
+      setVoiceToVoice(false);
+      setVoicetoText(true);
+    }
+  };
+
+  //START SPEECH ----------------
   const startListening = () => {
     SpeechRecognition.startListening({ continuous: true, lang: "id-ID" });
   };
 
+  //STOP SPEECH ----------------
   const stopListening = () => {
     SpeechRecognition.stopListening();
   };
 
+  //ON BUTTON HOLD ----------------
   const onMouseDown = () => {
     setbtnIsHold(true);
     setTimeout(() => {
@@ -30,17 +60,21 @@ export const BotVoice = () => {
     startListening();
   };
 
+  //ON BUTTON HOLD UP ----------------
   const onMouseUp = async () => {
     setbtnIsHold(false);
     stopListening();
     if (transcript === "") {
       return;
     }
+
+    //DISPLAY MY CHT ----------------
     const currentMessages = [...messages, { message: transcript, people }];
     setMessages(currentMessages);
     setMessage("");
     setIsLoading(true);
 
+    //->OPENAI
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: transcript,
@@ -50,99 +84,101 @@ export const BotVoice = () => {
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
     });
-    // Speech.setLanguage("id"); // Set language to Indonesian
-    // Speech.speak(response.data.choices[0].text);
     setIsLoading(false);
+    //DISPLAY RESPONSE CHT BOT ----------------
     setMessages([
       ...currentMessages,
       { message: response.data.choices[0].text, people: "Bot" },
     ]);
   };
 
-  const configuration = new Configuration({
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-  });
-  const openai = new OpenAIApi(configuration);
-
-  const [message, setMessage] = useState("");
-  const [people, setPeople] = useState("ME");
-  const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState([
-    { message: "Keyboard mu hancur? Pakai Fitur Voice ini", people: "Bot" },
-  ]);
-
-  const messagesEndRef = useRef(null);
-
-  useEffect(() => {
-    messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
-  }, [messages]);
+  //SCROLL AT CONTENT OVERFLOW ----------------
+  // useEffect(() => {
+  //   messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+  // }, [messages]);
 
   return (
     <>
       <div className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-7 content">
-            <div className="row py-2  ">
+            <div className="container"></div>
+            <div className="row py-3 justify-content-center ">
               <div className="col">
-                <button className="btn" style={{ width: "200px" }}>
+                <button
+                  className="btn"
+                  onClick={() => changePage()}
+                  style={{ width: "100%" }}
+                >
                   Voice to Text
                 </button>
-                {<Speech text="This library is awesome!" />}
+                {/* {<Speech text="This library is awesome!" />} */}
               </div>
               <div className="col">
-                <button className="btn" style={{ width: "200px" }}>
+                <button
+                  className="btn"
+                  onClick={() => changePage()}
+                  style={{ width: "100%" }}
+                >
                   Voice to Voice
                 </button>
               </div>
             </div>
-            <div
-              className="row content2 p-3"
-              ref={messagesEndRef}
-              style={{ height: "70vh" }}
-            >
-              <div className="col-md-12 my-4 p-4 ">
-                {messages.map((message, index) => (
-                  <div key={index}>
-                    <div
-                      className={`row ${
-                        message.people == "ME"
-                          ? "d-flex justify-content-end"
-                          : ""
-                      } `}
-                    >
+
+            {/* PAGE VOICE TO TEXT --------------- */}
+            {voicetotext ? (
+              <div
+                className="row content2 p-3"
+                ref={messagesEndRef}
+                style={{ height: "65vh" }}
+              >
+                <div className="col-md-12 my-4 p-4 ">
+                  {messages.map((message, index) => (
+                    <div key={index}>
                       <div
-                        className={`col-md-12 my-3 p-2 ${
-                          message.people == "ME" ? "text-end" : "text-start"
+                        className={`row ${
+                          message.people == "ME"
+                            ? "d-flex justify-content-end"
+                            : ""
                         } `}
-                        style={{
-                          borderRight:
-                            message.people == "ME"
-                              ? "2px solid #FFA500"
-                              : "none",
-                          borderLeft:
-                            message.people != "ME"
-                              ? "2px solid #FFA500"
-                              : "none",
-                          maxWidth: "50vh",
-                        }}
                       >
-                        <div className="pb-3 fw-bold">{message.people}</div>
-                        <div style={{ wordWrap: "break-word" }}>
-                          <p key={index}>{message.message}</p>
+                        <div
+                          className={`col-md-12 my-3 p-2 ${
+                            message.people == "ME" ? "text-end" : "text-start"
+                          } `}
+                          style={{
+                            borderRight:
+                              message.people == "ME"
+                                ? "2px solid #FFA500"
+                                : "none",
+                            borderLeft:
+                              message.people != "ME"
+                                ? "2px solid #FFA500"
+                                : "none",
+                            maxWidth: "50vh",
+                          }}
+                        >
+                          <div className="pb-3 fw-bold">{message.people}</div>
+                          <div style={{ wordWrap: "break-word" }}>
+                            <p key={index}>{message.message}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-                {isLoading ? (
-                  <div className="spinner-border text-warning" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                ) : (
-                  ""
-                )}
+                  ))}
+                  {isLoading ? (
+                    <div className="spinner-border text-warning" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
               </div>
-            </div>
+            ) : (
+              "voice to voice"
+            )}
+
             <div className="row">
               <div className="container">
                 <div className="col-md-12">
