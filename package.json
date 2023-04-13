@@ -23,6 +23,7 @@
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-speech": "^1.0.2",
+    "react-speech-kit": "^3.0.1",
     "react-speech-recognition": "^3.10.0",
     "react-text-to-speech": "^0.4.0",
     "siiimple-toast": "^3.1.7",

@@ -2,6 +2,7 @@ import { Configuration, OpenAIApi } from "openai";
 import React, { useState, useEffect, useRef } from "react";
 // import Speech from "react-text-to-speech";
 import Speech from "react-speech";
+import { useSpeechSynthesis } from "react-speech-kit";
 
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -16,6 +17,7 @@ export const BotVoice = () => {
   ]);
   const messagesEndRef = useRef(null);
   const { transcript, listening, resetTranscript } = useSpeechRecognition();
+  const { speak } = useSpeechSynthesis({ lang: "id-ID" });
   const [btnIsHold, setbtnIsHold] = useState(false);
 
   //PAGE ----------------
@@ -89,6 +91,7 @@ export const BotVoice = () => {
       presence_penalty: 0.0,
     });
     setIsLoading(false);
+    speak({ text: response.data.choices[0].text });
     //DISPLAY RESPONSE CHT BOT ----------------
     setMessages([
       ...currentMessages,
