@@ -187,7 +187,7 @@ export const BotVoice = () => {
                 <div
                   className="row content2 p-3"
                   ref={messagesEndRef}
-                  style={{ height: "65vh" }}
+                  style={{ height: "60vh" }}
                 >
                   <div className="col-md-12 p-4 ">
                     {messages.map((message, index) => (
