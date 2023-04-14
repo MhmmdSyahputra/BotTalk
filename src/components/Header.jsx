@@ -20,9 +20,9 @@ export const Header = () => {
                     Bot Img
                   </Link>
                   <Link
-                    to="/BotVoice"
+                    to="/"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
-                      location.pathname === "/BotVoice" ? "active" : ""
+                      location.pathname === "/" ? "active" : ""
                     }`}
                   >
                     Bot Voice

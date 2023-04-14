@@ -9,9 +9,7 @@ const Pages = () => {
     <>
       <Header />
       <Routes>
-        {/* <Route exact path="/" element={<Home />} /> */}
         <Route exact path="/" element={<BotVoice />} />
-        <Route exact path="/BotVoice" element={<BotVoice />} />
         <Route exact path="/BotImg" element={<BotImg />} />
         <Route exact path="/ChtBot" element={<ChtBot />} />
       </Routes>
