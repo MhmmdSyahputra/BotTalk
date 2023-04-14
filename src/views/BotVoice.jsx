@@ -150,9 +150,12 @@ export const BotVoice = () => {
                     --Bahasa--
                   </option>
                   {listlang &&
-                    listlang.map((lang) => <option>{lang.bahasa}</option>)}
+                    listlang.map((lang) => (
+                      <option value={lang.unikLang}>{lang.bahasa}</option>
+                    ))}
                 </select>
               </div>
+              <p>{selecttedlang}</p>
             </div>
             <div className="row px-3 py-2 justify-content-center ">
               <div className="col">
