@@ -155,7 +155,6 @@ export const BotVoice = () => {
                     ))}
                 </select>
               </div>
-              <p>{selecttedlang}</p>
             </div>
             <div className="row px-3 py-2 justify-content-center ">
               <div className="col">
