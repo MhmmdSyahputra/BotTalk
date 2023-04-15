@@ -105,7 +105,6 @@ export const ChtBot = () => {
               <form onSubmit={handleSubmit}>
                 <div className="input-group mb-3">
                   <input
-                    autoFocus
                     type="text"
                     autoComplete="off"
                     name="message"
