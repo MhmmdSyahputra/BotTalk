@@ -1,6 +1,5 @@
 import { Configuration, OpenAIApi } from "openai";
 import React, { useState, useEffect, useRef } from "react";
-import Speech from "react-speech";
 
 export const ChtBot = () => {
   const configuration = new Configuration({
@@ -20,13 +19,7 @@ export const ChtBot = () => {
   useEffect(() => {
     messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
   }, [messages]);
-  const playSpeech = (text) => {
-    Speech.speak({
-      text: text,
-      voice: "Google UK English Female",
-      lang: "EN-GB",
-    });
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -69,22 +62,22 @@ export const ChtBot = () => {
                   <div key={index}>
                     <div
                       className={`row ${
-                        message.people == "ME"
+                        message.people === "ME"
                           ? "d-flex justify-content-end"
                           : ""
                       } `}
                     >
                       <div
                         className={`col-md-12 my-3 p-2 ${
-                          message.people == "ME" ? "text-end" : "text-start"
+                          message.people === "ME" ? "text-end" : "text-start"
                         } `}
                         style={{
                           borderRight:
-                            message.people == "ME"
+                            message.people === "ME"
                               ? "2px solid #FFA500"
                               : "none",
                           borderLeft:
-                            message.people != "ME"
+                            message.people !== "ME"
                               ? "2px solid #FFA500"
                               : "none",
                           maxWidth: "50vh",
@@ -92,12 +85,6 @@ export const ChtBot = () => {
                       >
                         <div className="pb-3 fw-bold">{message.people}</div>
                         <div style={{ wordWrap: "break-word" }}>
-                          {/* <Speech
-                            text={message.message}
-                            voice="Google UK English Female"
-                            lang="EN-GB"
-                            autostart={true}
-                          /> */}
                           <p key={index}>{message.message}</p>
                         </div>
                       </div>
@@ -118,6 +105,7 @@ export const ChtBot = () => {
               <form onSubmit={handleSubmit}>
                 <div className="input-group mb-3">
                   <input
+                    autoFocus
                     type="text"
                     autoComplete="off"
                     name="message"

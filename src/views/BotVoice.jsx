@@ -1,12 +1,15 @@
 import { Configuration, OpenAIApi } from "openai";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useRef } from "react";
 import { useSpeechSynthesis } from "react-speech-kit";
-
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 
 export const BotVoice = () => {
+  const history = useNavigate();
+  const pageRef = useRef(null);
   const [selecttedlang, setselectedLang] = useState("id-ID");
   const listlang = [
     { unikLang: "id-ID", bahasa: "Indonesia" },
@@ -28,6 +31,24 @@ export const BotVoice = () => {
   //PAGE ----------------
   const [voicetotext, setVoicetoText] = useState(true);
   const [voicetovoice, setVoiceToVoice] = useState(false);
+  const swipeThreshold = 50;
+  const handleSwipe = (e) => {
+    const touchStartX = e.touches[0].clientX;
+    const touchEndX = e.changedTouches[0].clientX;
+    const swipeDistance = touchEndX - touchStartX;
+
+    if (swipeDistance > swipeThreshold) {
+      history.push("/DrawBot");
+    }
+  };
+
+  useEffect(() => {
+    const pageEl = pageRef.current;
+    pageEl.addEventListener("touchstart", handleSwipe);
+    return () => {
+      pageEl.removeEventListener("touchstart", handleSwipe);
+    };
+  }, []);
 
   //ENV APIKEY OPENAI ----------------
   const configuration = new Configuration({
@@ -130,7 +151,7 @@ export const BotVoice = () => {
 
   return (
     <>
-      <div className="container">
+      <div ref={pageRef} className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-7 content">
             <div className="row">
@@ -194,22 +215,24 @@ export const BotVoice = () => {
                       <div key={index}>
                         <div
                           className={`row ${
-                            message.people == "ME"
+                            message.people === "ME"
                               ? "d-flex justify-content-end"
                               : ""
                           } `}
                         >
                           <div
                             className={`col-md-12 my-3 p-2 ${
-                              message.people == "ME" ? "text-end" : "text-start"
+                              message.people === "ME"
+                                ? "text-end"
+                                : "text-start"
                             } `}
                             style={{
                               borderRight:
-                                message.people == "ME"
+                                message.people === "ME"
                                   ? "2px solid #FFA500"
                                   : "none",
                               borderLeft:
-                                message.people != "ME"
+                                message.people !== "ME"
                                   ? "2px solid #FFA500"
                                   : "none",
                               maxWidth: "50vh",
@@ -242,6 +265,7 @@ export const BotVoice = () => {
                         <form>
                           <div className="input-group mb-3">
                             <input
+                              autoFocus
                               type="text"
                               autoComplete="off"
                               name="message"

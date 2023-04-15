@@ -56,22 +56,22 @@ export const BotImg = () => {
                   <div key={index}>
                     <div
                       className={`row ${
-                        message.people == "ME"
+                        message.people === "ME"
                           ? "d-flex justify-content-end"
                           : ""
                       } `}
                     >
                       <div
                         className={`col-md-12 my-3 p-2 ${
-                          message.people == "ME" ? "text-end" : "text-start"
+                          message.people === "ME" ? "text-end" : "text-start"
                         } `}
                         style={{
                           borderRight:
-                            message.people == "ME"
+                            message.people === "ME"
                               ? "2px solid #FFA500"
                               : "none",
                           borderLeft:
-                            message.people != "ME"
+                            message.people !== "ME"
                               ? "2px solid #FFA500"
                               : "none",
                           maxWidth: "50vh",
@@ -79,7 +79,7 @@ export const BotImg = () => {
                       >
                         <div className="pb-3 fw-bold">{message.people}</div>
                         <div style={{ wordWrap: "break-word" }}>
-                          {message.people != "ME" && index != 0 ? (
+                          {message.people !== "ME" && index !== 0 ? (
                             <img
                               key={index}
                               className="img-fluid"
@@ -109,6 +109,7 @@ export const BotImg = () => {
               <form onSubmit={handleSubmit}>
                 <div className="input-group mb-3">
                   <input
+                    autoFocus
                     type="text"
                     autoComplete="off"
                     name="message"

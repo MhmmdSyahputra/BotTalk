@@ -12,12 +12,12 @@ export const Header = () => {
               <div className="container">
                 <div className="row px-1">
                   <Link
-                    to="/BotImg"
+                    to="/DrawBot"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
-                      location.pathname === "/BotImg" ? "active" : ""
+                      location.pathname === "/DrawBot" ? "active" : ""
                     }`}
                   >
-                    Bot Img
+                    Draw Bot
                   </Link>
                   <Link
                     to="/"
@@ -25,23 +25,15 @@ export const Header = () => {
                       location.pathname === "/" ? "active" : ""
                     }`}
                   >
-                    Bot Voice
+                    Voice Bot
                   </Link>
-                  {/* <Link
-                    to="/"
-                    className={`col p-1 fw-bold text-decoration-none text-light ${
-                      location.pathname === "/" ? "active" : ""
-                    }`}
-                  >
-                    Chat
-                  </Link> */}
                   <Link
-                    to="/ChtBot"
+                    to="/ChatBot"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
-                      location.pathname === "/ChtBot" ? "active" : ""
+                      location.pathname === "/ChatBot" ? "active" : ""
                     }`}
                   >
-                    Bot Chat
+                    Chat Bot
                   </Link>
                 </div>
               </div>

@@ -10,8 +10,8 @@ const Pages = () => {
       <Header />
       <Routes>
         <Route exact path="/" element={<BotVoice />} />
-        <Route exact path="/BotImg" element={<BotImg />} />
-        <Route exact path="/ChtBot" element={<ChtBot />} />
+        <Route exact path="/DrawBot" element={<BotImg />} />
+        <Route exact path="/ChatBot" element={<ChtBot />} />
       </Routes>
 
       {/* <Footer /> */}
