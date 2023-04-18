@@ -65,7 +65,7 @@ export const SuasanaHati = () => {
         <div className="row d-flex justify-content-center">
           <div className="col-md-7 content">
             <div
-              className="row content2 p-3"
+              className="row content2 "
               ref={messagesEndRef}
               style={{ height: "85vh" }}
             >
