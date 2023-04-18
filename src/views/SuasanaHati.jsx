@@ -5,14 +5,41 @@ import "animate.css";
 
 export const SuasanaHati = () => {
   const listSuasanaHati = [
-    { color: "success", suasana: "Happy" },
-    { color: "primary", suasana: "Gembira" },
-    { color: "info", suasana: "Ceria" },
-    { color: "primary", suasana: "Senang" },
-    { color: "danger", suasana: "Marah" },
-    { color: "warning", suasana: "Sedih" },
-    { color: "dark", suasana: "Terkejut" },
-    { color: "danger", suasana: "Tersinggung" },
+    {
+      icon: "fa-sharp fa-regular fa-face-smile fa-fade",
+      color: "success",
+      suasana: "Happy",
+    },
+    {
+      icon: "fa-solid fa-face-laugh-beam fa-beat-fade",
+      color: "primary",
+      suasana: "Gembira",
+    },
+    {
+      icon: "fa-solid fa-face-laugh-squint fa-beat-fade",
+      color: "info",
+      suasana: "Ceria",
+    },
+    {
+      icon: "fa-solid fa-face-angry fa-beat-fade",
+      color: "danger",
+      suasana: "Marah",
+    },
+    {
+      icon: "fa-solid fa-face-sad-tear fa-beat-fade",
+      color: "warning",
+      suasana: "Sedih",
+    },
+    {
+      icon: "fa-solid fa-face-angry fa-beat-fade",
+      color: "dark",
+      suasana: "Terkejut",
+    },
+    {
+      icon: "fa-solid fa-face-angry fa-beat-fade",
+      color: "danger",
+      suasana: "Tersinggung",
+    },
   ];
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -51,7 +78,7 @@ export const SuasanaHati = () => {
         popup: "animate__animated animate__fadeInDown",
       },
       hideClass: {
-        popup: "animate__animated animate__fadeOutUp",
+        popup: "animate__animated animate__fadeOutDown",
       },
     });
     // alert(response.data.choices[0].text);
@@ -79,7 +106,7 @@ export const SuasanaHati = () => {
                         mySuasanaHati(suasana.suasana);
                       }}
                     >
-                      {suasana.suasana}
+                      <i className={suasana.icon}></i> {suasana.suasana}
                     </button>
                   ))}
                 {isLoading ? (
