@@ -74,7 +74,7 @@ export const SuasanaHati = () => {
                   listSuasanaHati.map((suasana) => (
                     // <option value={lang.unikLang}>{lang.bahasa}</option>
                     <button
-                      className={"btn px-5 m-2" + " btn-" + suasana.color}
+                      className={"btn px-3 m-2" + " btn-" + suasana.color}
                       onClick={() => {
                         mySuasanaHati(suasana.suasana);
                       }}
