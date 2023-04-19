@@ -36,7 +36,7 @@ export const SuasanaHati = () => {
       prompt:
         "buat kan list " +
         number +
-        ' mood dalam bahasa indonesia berserta dengan code warna nya yg cocok. dengan format json *jgn pakai nomor dan color nya dengan opacity yg rendah [{"color": "", "suasana": "", "emot": ""}] ',
+        ' mood dalam bahasa gaul indonesia berserta dengan code warna nya yg cocok. dengan format json *jgn pakai nomor dan color nya dengan opacity yg rendah [{"color": "", "suasana": "", "emot": ""}] ',
       temperature: 0,
       max_tokens: 500,
       top_p: 1,
@@ -87,7 +87,8 @@ export const SuasanaHati = () => {
               ref={messagesEndRef}
               style={{ height: "85vh" }}
             >
-              <div className="col">
+              <div className="col py-4">
+                <h1 className="fs-5">Pilih Mood mu</h1>
                 {listMood &&
                   listMood.map((suasana, index) => (
                     <button
