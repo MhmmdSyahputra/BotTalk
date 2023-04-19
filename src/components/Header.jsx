@@ -12,14 +12,16 @@ export const Header = () => {
               <div className="container">
                 <div className="row">
                   <Link
+                    style={{ fontSize: "0.8em" }}
                     to="/SuasanaHati"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
-                      location.pathname === "/SusanaHati" ? "active" : ""
+                      location.pathname === "/SuasanaHati" ? "active" : ""
                     }`}
                   >
                     Mood
                   </Link>
                   <Link
+                    style={{ fontSize: "0.8em" }}
                     to="/DrawBot"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
                       location.pathname === "/DrawBot" ? "active" : ""
@@ -28,6 +30,7 @@ export const Header = () => {
                     Draw Bot
                   </Link>
                   <Link
+                    style={{ fontSize: "0.8em" }}
                     to="/"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
                       location.pathname === "/" ? "active" : ""
@@ -36,6 +39,7 @@ export const Header = () => {
                     Voice Bot
                   </Link>
                   <Link
+                    style={{ fontSize: "0.8em" }}
                     to="/ChatBot"
                     className={`col p-1 fw-bold text-decoration-none text-light ${
                       location.pathname === "/ChatBot" ? "active" : ""

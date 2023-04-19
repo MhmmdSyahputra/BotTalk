@@ -10,8 +10,6 @@ export const SuasanaHati = () => {
   const openai = new OpenAIApi(configuration);
 
   const [listMood, setlistMood] = useState([]);
-  const [message, setMessage] = useState("");
-  const [people, setPeople] = useState("ME");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { message: "Tanya apa mau mu, aku siap melayani", people: "Bot" },
@@ -28,7 +26,10 @@ export const SuasanaHati = () => {
   }, []);
 
   const getSuasana = async () => {
-    let number = Math.floor(Math.random() * (10 - 6 + 1) + 6);
+    const min = 7;
+    const max = 20;
+    const number = Math.floor(Math.random() * (max - min + 1) + min);
+
     setIsLoading(true);
     const response = await openai.createCompletion({
       model: "text-davinci-003",
@@ -89,11 +90,10 @@ export const SuasanaHati = () => {
               <div className="col">
                 {listMood &&
                   listMood.map((suasana, index) => (
-                    // <option value={lang.unikLang}>{lang.bahasa}</option>
                     <button
                       key={index}
-                      className={"btn px-3 m-2"}
-                      style={{ backgroundColor: suasana.color }}
+                      className={"btn px-2 m-2"}
+                      style={{ borderColor: suasana.color }}
                       onClick={() => {
                         mySuasanaHati(suasana.suasana);
                       }}
@@ -114,7 +114,7 @@ export const SuasanaHati = () => {
                     {" "}
                     <div
                       className="spinner-border text-warning"
-                      style={{ width: "100px", height: "100px" }}
+                      style={{ width: "80px", height: "80px" }}
                       role="status"
                     >
                       <span className="visually-hidden">Loading...</span>{" "}
