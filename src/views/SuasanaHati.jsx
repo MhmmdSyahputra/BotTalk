@@ -4,48 +4,12 @@ import Swal from "sweetalert2";
 import "animate.css";
 
 export const SuasanaHati = () => {
-  const listSuasanaHati = [
-    {
-      icon: "fa-sharp fa-regular fa-face-smile fa-fade",
-      color: "success",
-      suasana: "Happy",
-    },
-    {
-      icon: "fa-solid fa-face-laugh-beam fa-beat-fade",
-      color: "primary",
-      suasana: "Gembira",
-    },
-    {
-      icon: "fa-solid fa-face-laugh-squint fa-beat-fade",
-      color: "info",
-      suasana: "Ceria",
-    },
-    {
-      icon: "fa-solid fa-face-angry fa-beat-fade",
-      color: "danger",
-      suasana: "Marah",
-    },
-    {
-      icon: "fa-solid fa-face-sad-tear fa-beat-fade",
-      color: "warning",
-      suasana: "Sedih",
-    },
-    {
-      icon: "fa-solid fa-face-angry fa-beat-fade",
-      color: "dark",
-      suasana: "Terkejut",
-    },
-    {
-      icon: "fa-solid fa-face-angry fa-beat-fade",
-      color: "danger",
-      suasana: "Tersinggung",
-    },
-  ];
   const configuration = new Configuration({
     apiKey: process.env.REACT_APP_OPENAI_API_KEY,
   });
   const openai = new OpenAIApi(configuration);
 
+  const [listMood, setlistMood] = useState([]);
   const [message, setMessage] = useState("");
   const [people, setPeople] = useState("ME");
   const [isLoading, setIsLoading] = useState(false);
@@ -59,13 +23,38 @@ export const SuasanaHati = () => {
     messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
   }, [messages]);
 
+  useEffect(() => {
+    getSuasana();
+  }, []);
+
+  const getSuasana = async () => {
+    let number = Math.floor(Math.random() * (10 - 6 + 1) + 6);
+    setIsLoading(true);
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt:
+        "buat kan list " +
+        number +
+        ' mood dalam bahasa indonesia berserta dengan code warna nya yg cocok. dengan format json *jgn pakai nomor dan color nya dengan opacity yg rendah [{"color": "", "suasana": "", "emot": ""}] ',
+      temperature: 0,
+      max_tokens: 500,
+      top_p: 1,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+    });
+    const listMood = `${response.data.choices[0].text}`;
+    const objekResponse = JSON.parse(listMood);
+    setlistMood(objekResponse);
+    setIsLoading(false);
+  };
+
   const mySuasanaHati = async (suasana) => {
     let ke = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
     setIsLoading(true);
 
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: "Berikan Qoute yg ke " + ke + " Penyemangat Tentang" + suasana,
+      prompt: "Berikan Qoute yg bahasa indonesia Motivasi Tentang" + suasana,
       temperature: 0,
       max_tokens: 200,
       top_p: 1,
@@ -73,7 +62,8 @@ export const SuasanaHati = () => {
       presence_penalty: 0.0,
     });
     Swal.fire({
-      title: response.data.choices[0].text,
+      title: suasana,
+      text: response.data.choices[0].text,
       showClass: {
         popup: "animate__animated animate__fadeInDown",
       },
@@ -97,16 +87,18 @@ export const SuasanaHati = () => {
               style={{ height: "85vh" }}
             >
               <div className="col">
-                {listSuasanaHati &&
-                  listSuasanaHati.map((suasana) => (
+                {listMood &&
+                  listMood.map((suasana, index) => (
                     // <option value={lang.unikLang}>{lang.bahasa}</option>
                     <button
-                      className={"btn px-3 m-2" + " btn-" + suasana.color}
+                      key={index}
+                      className={"btn px-3 m-2"}
+                      style={{ backgroundColor: suasana.color }}
                       onClick={() => {
                         mySuasanaHati(suasana.suasana);
                       }}
                     >
-                      <i className={suasana.icon}></i> {suasana.suasana}
+                      {suasana.emot} {suasana.suasana}
                     </button>
                   ))}
                 {isLoading ? (
