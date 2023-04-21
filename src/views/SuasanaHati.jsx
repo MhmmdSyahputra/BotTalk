@@ -26,8 +26,8 @@ export const SuasanaHati = () => {
   }, []);
 
   const getSuasana = async () => {
-    const min = 7;
-    const max = 20;
+    const min = 5;
+    const max = 13;
     const number = Math.floor(Math.random() * (max - min + 1) + min);
 
     setIsLoading(true);
