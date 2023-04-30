@@ -7,12 +7,6 @@ import SpeechRecognition, {
 
 export const BotVoice = () => {
   const [selecttedlang, setselectedLang] = useState("id-ID");
-  const listlang = [
-    { unikLang: "id-ID", bahasa: "Indonesia" },
-    { unikLang: "en-US", bahasa: "English" },
-    { unikLang: "ru-RU", bahasa: "Russia" },
-    { unikLang: "es-CR", bahasa: "Spanish" },
-  ];
   const [message, setMessage] = useState("");
   const [people, setPeople] = useState("ME");
   const [isLoading, setIsLoading] = useState(false);
@@ -132,30 +126,7 @@ export const BotVoice = () => {
       <div className="container">
         <div className="row d-flex justify-content-center">
           <div className="col-md-7 content">
-            <div className="row">
-              <div className="col px-4 py-2">
-                <select
-                  style={{
-                    width: "110px",
-                    height: "30px",
-                    fontSize: "12px",
-                  }}
-                  value={selecttedlang}
-                  defaultValue="Select an option"
-                  onChange={(e) => setselectedLang(e.target.value)}
-                  className="form-control"
-                >
-                  <option hidden selected>
-                    --Bahasa--
-                  </option>
-                  {listlang &&
-                    listlang.map((lang) => (
-                      <option value={lang.unikLang}>{lang.bahasa}</option>
-                    ))}
-                </select>
-              </div>
-            </div>
-            <div className="row px-3 py-2 justify-content-center ">
+            <div className="row px-3 py-3 justify-content-center ">
               <div className="col">
                 <button
                   className="btn"

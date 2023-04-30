@@ -9,7 +9,71 @@ export const SuasanaHati = () => {
   });
   const openai = new OpenAIApi(configuration);
 
-  const [listMood, setlistMood] = useState([]);
+  const [listMood, setlistMood] = useState([
+    {
+      color: "#A2D6F9",
+      suasana: "Sedih",
+      emot: "fa-solid fa-face-sad-tear fa-fade",
+    },
+    { color: "Red", suasana: "Galau", emot: "fa-solid fa-face-frown fa-fade" },
+    {
+      color: "orange",
+      suasana: "Senang",
+      emot: "fa-solid fa-face-smile-beam fa-fade",
+    },
+    { color: "red", suasana: "Marah", emot: "fa-solid fa-face-angry fa-fade" },
+    {
+      color: "purple",
+      suasana: "Kebahagian",
+      emot: "fa-solid fa-face-laugh-squint fa-fade",
+    },
+    {
+      color: "cyan",
+      suasana: "Kesalahan",
+      emot: "fa-solid fa-face-dizzy fa-fade",
+    },
+    {
+      color: "#E9190F",
+      suasana: "Cemas",
+      emot: "fa-solid fa-face-flushed fa-fade",
+    },
+    {
+      color: "black",
+      suasana: "Ketakutan",
+      emot: "fa-solid fa-face-grimace fa-fade",
+    },
+    {
+      color: "#33032F",
+      suasana: "Tertekan ",
+      emot: "fa-solid fa-face-meh-blank fa-fade",
+    },
+    {
+      color: "#004643",
+      suasana: "Ketakutan",
+      emot: "fa-solid fa-face-grimace fa-fade",
+    },
+    {
+      color: "#190E4F",
+      suasana: "Kesepian",
+      emot: "fa-solid fa-face-frown-open fa-fade",
+    },
+    {
+      color: "#FB5012",
+      suasana: "Terintimidasi ",
+      emot: "fa-solid fa-face-dizzy fa-fade",
+    },
+    {
+      color: "#D7D9CE",
+      suasana: "Kebingungan",
+      emot: "fa-solid fa-face-meh fa-fade",
+    },
+    {
+      color: "#119DA4",
+      suasana: "Nangis",
+      emot: "fa-solid fa-face-sad-cry fa-fade",
+    },
+  ]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState([
     { message: "Tanya apa mau mu, aku siap melayani", people: "Bot" },
@@ -21,36 +85,7 @@ export const SuasanaHati = () => {
     messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
   }, [messages]);
 
-  useEffect(() => {
-    getSuasana();
-  }, []);
-
-  const getSuasana = async () => {
-    const min = 5;
-    const max = 13;
-    const number = Math.floor(Math.random() * (max - min + 1) + min);
-
-    setIsLoading(true);
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt:
-        "buat kan list " +
-        number +
-        ' mood dalam bahasa gaul indonesia berserta dengan code warna nya yg cocok. dengan format json *jgn pakai nomor dan color nya dengan opacity yg rendah [{"color": "", "suasana": "", "emot": ""}] ',
-      temperature: 0,
-      max_tokens: 500,
-      top_p: 1,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
-    });
-    const listMood = `${response.data.choices[0].text}`;
-    const objekResponse = JSON.parse(listMood);
-    setlistMood(objekResponse);
-    setIsLoading(false);
-  };
-
   const mySuasanaHati = async (suasana) => {
-    let ke = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
     setIsLoading(true);
 
     const response = await openai.createCompletion({
@@ -99,7 +134,8 @@ export const SuasanaHati = () => {
                         mySuasanaHati(suasana.suasana);
                       }}
                     >
-                      {suasana.emot} {suasana.suasana}
+                      <i className={suasana.emot + " me-2"}></i>
+                      {suasana.suasana}
                     </button>
                   ))}
                 {isLoading ? (
